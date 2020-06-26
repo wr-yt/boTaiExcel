@@ -2,6 +2,7 @@ package com.botai;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 关于文件的复制
@@ -10,7 +11,7 @@ public class CopyFile {
     /**
      * 将指定路径下的文件复制到指定文件夹中
      */
-    public static String copyFiles(String sourceFileName, String newname) {
+    public static String copyFiles(String sourceFileName, String newname) throws InterruptedException {
         //被复制文件
         File copyFile = new File(sourceFileName);
         //指定文件夹路径
@@ -24,8 +25,10 @@ public class CopyFile {
                 copiedFolder.mkdirs();
             }
             //复制后文件的路径与命名
-            String copiedFilePath = copiedFolderPath + "/" + newname + ".xls";
+            String copiedFilePath = copiedFolderPath + "/" + newname + ".xls ";
+//            String copiedFilePath = copiedFolderPath + "/" + System.currentTimeMillis() + "-" + newname + "-data" + ".xls ";
             File copiedFile = new File(copiedFilePath);
+            TimeUnit.MILLISECONDS.sleep(25);
             if (!copiedFile.exists()) {
                 copiedFile.createNewFile();
             }

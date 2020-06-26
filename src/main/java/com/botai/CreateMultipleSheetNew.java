@@ -20,8 +20,12 @@ public class CreateMultipleSheetNew {
      */
     public static List<MyRowTask> createProductCategoryLogSaveTask(List<WuLiao> targe) {
         List<MyRowTask> listArr = new ArrayList<MyRowTask>();
-        // 获取被拆分的数组个数
 
+
+
+
+
+        // 获取被拆分的数组个数
         for (int i = 0; i < targe.size(); i++) {
             List<MyRow> sub = new ArrayList<>();
             try {
@@ -39,7 +43,7 @@ public class CreateMultipleSheetNew {
     public void Doing(List<WuLiao> wuLiaos) {
         try {
             List<MyRowTask> listArr3 = createProductCategoryLogSaveTask(wuLiaos);
-            ExecutorService executorService = newFixedThreadPool(listArr3.size() / 100);
+            ExecutorService executorService = Executors.newFixedThreadPool(listArr3.size() / 10);
             executorService.invokeAll(listArr3);
             executorService.shutdown();
             System.out.println("listArr3" + listArr3.size());
