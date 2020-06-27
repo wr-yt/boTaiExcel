@@ -49,6 +49,11 @@ public class WuLiao implements Serializable {
 
     private String filepath;
 
+    /**
+     * 删除标记
+     */
+    private boolean flag = true;
+
     public String getXuHao() {
         return xuHao;
     }
@@ -106,6 +111,14 @@ public class WuLiao implements Serializable {
         this.filepath = filepath;
     }
 
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     /**
      * 设置型号

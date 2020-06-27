@@ -4,8 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 
 import java.io.FileInputStream;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -20,25 +19,39 @@ public class ExcelDoing {
 
 
         try {
+            // 命令删除excels
             ExcelUtils.getTemplateSheet(new FileInputStream(args[1]));
             List<WuLiao> wuLiaos = ExcelUtils.readFromXLS2003(args[0]);
+
+            Map<String, Long> collectMap = wuLiaos.stream().collect(Collectors.groupingBy(WuLiao::getMainNo, Collectors.counting()));
+
             wuLiaos = Collections.synchronizedList(wuLiaos);
             WuLiao wuLiao = null;
+            String mainNo = "";
+            WuLiao wuLiaoTemp = null;
+            Map<String, WuLiao> mapBymain = new HashMap<>();
             for (int i = 0; i < wuLiaos.size(); i++) {
                 wuLiao = wuLiaos.get(i);
-                wuLiao.setFilepath(CopyFile.copyFiles(args[1], wuLiao.getMainNo()));
+                mainNo = wuLiao.getMainNo();
+                if (collectMap.get(mainNo) > 1) {
+                    if (mapBymain.containsKey(mainNo)) {
+                        wuLiaoTemp = mapBymain.get(mainNo);
+                        wuLiaoTemp.setBoWenJiaoDu(wuLiaoTemp.getBoWenJiaoDu() + "/" + wuLiao.getBoWenJiaoDu());
+                        wuLiao.setFlag(false);
+                    } else {
+                        mapBymain.put(mainNo, wuLiao);
+                    }
+                }
+                wuLiao.setFilepath(CopyFile.copyFiles(args[1], mainNo));
             }
-
-
-            List<WuLiao> boWenBlank = wuLiaos.stream().filter(item -> StringUtils.isBlank(item.getBoWenJiaoDu())).collect(Collectors.toList());
-            List<WuLiao> boWennotBlak = wuLiaos.stream().filter(item -> StringUtils.isNoneBlank(item.getBoWenJiaoDu())).collect(Collectors.toList());
             CreateMultipleSheetNew createMultipleSheetNew = new CreateMultipleSheetNew();
-            createMultipleSheetNew.Doing(boWennotBlak);
+            createMultipleSheetNew.Doing(wuLiaos);
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }

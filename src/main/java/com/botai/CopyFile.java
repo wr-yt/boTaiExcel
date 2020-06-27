@@ -28,7 +28,6 @@ public class CopyFile {
             String copiedFilePath = copiedFolderPath + "/" + newname + ".xls ";
 //            String copiedFilePath = copiedFolderPath + "/" + System.currentTimeMillis() + "-" + newname + "-data" + ".xls ";
             File copiedFile = new File(copiedFilePath);
-            TimeUnit.MILLISECONDS.sleep(25);
             if (!copiedFile.exists()) {
                 copiedFile.createNewFile();
             }

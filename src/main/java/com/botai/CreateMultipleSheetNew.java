@@ -20,22 +20,22 @@ public class CreateMultipleSheetNew {
      */
     public static List<MyRowTask> createProductCategoryLogSaveTask(List<WuLiao> targe) {
         List<MyRowTask> listArr = new ArrayList<MyRowTask>();
-
-
-
-
-
+        WuLiao wuLiao = null;
         // 获取被拆分的数组个数
         for (int i = 0; i < targe.size(); i++) {
-            List<MyRow> sub = new ArrayList<>();
             try {
+                wuLiao = targe.get(i);
+                if (!wuLiao.isFlag()) {
+                    continue;
+                }
+                List<MyRow> sub = new ArrayList<>();
                 sub = ExcelUtils.getMyrows(targe.get(i));
+                listArr.add(new MyRowTask(sub, targe.get(i).getFilepath()));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-            listArr.add(new MyRowTask(sub, targe.get(i).getFilepath()));
         }
         return listArr;
     }
