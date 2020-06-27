@@ -1,8 +1,12 @@
 package com.botai;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.util.HSSFColor;
+
 import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: ExcelDoing
@@ -24,8 +28,14 @@ public class ExcelDoing {
                 wuLiao = wuLiaos.get(i);
                 wuLiao.setFilepath(CopyFile.copyFiles(args[1], wuLiao.getMainNo()));
             }
+
+
+            List<WuLiao> boWenBlank = wuLiaos.stream().filter(item -> StringUtils.isBlank(item.getBoWenJiaoDu())).collect(Collectors.toList());
+            List<WuLiao> boWennotBlak = wuLiaos.stream().filter(item -> StringUtils.isNoneBlank(item.getBoWenJiaoDu())).collect(Collectors.toList());
             CreateMultipleSheetNew createMultipleSheetNew = new CreateMultipleSheetNew();
-            createMultipleSheetNew.Doing(wuLiaos);
+            createMultipleSheetNew.Doing(boWennotBlak);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

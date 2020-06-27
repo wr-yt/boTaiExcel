@@ -33,6 +33,8 @@ public class ExcelUtils {
      * @return
      */
     public static List<WuLiao> readFromXLS2003(String filePath) {
+
+        List<WuLiao> boWenJiaoDuBlank = new ArrayList<>();
         File excelFile = null;// Excel文件对象  
         InputStream is = null;// 输入流对象  
         String cellStr = null;// 单元格，最终按字符串处理  
@@ -75,6 +77,10 @@ public class ExcelUtils {
                     } else if (j == 2) {
                         employee.setHouDu(cellStr.trim());
                     } else if (j == 3) {
+
+                        if (StringUtils.isBlank(cellStr.trim())) {
+
+                        }
                         employee.setBoWenJiaoDu(cellStr.trim());
                     } else if (j == 4) {
                         employee.setLength(StringUtils.isNotBlank(cellStr.trim()) ? new BigDecimal(cellStr.trim()).intValue() : 0);
@@ -212,9 +218,23 @@ public class ExcelUtils {
         String mainNo = wuLiao.getMainNo();
         String houDu = wuLiao.getHouDu();
         List<MyRow> myRows = new ArrayList<>();
+
+        //厚度分割获取厚度范围
+        String[] split_houDu = null;
+        if (houDu.contains("-")) {
+            split_houDu = houDu.split("-");
+        } else {
+            split_houDu = houDu.split("/");
+        }
+        int start = new BigDecimal(split_houDu[0]).multiply(BigDecimal.valueOf(10)).intValue();
+        int end = new BigDecimal(split_houDu[split_houDu.length > 1 ? 1 : 0]).multiply(BigDecimal.valueOf(10)).intValue();
+
+
         boWenJiaoDu = wuLiao.getBoWenJiaoDu();
+        // 波纹为空
         if (StringUtils.isBlank(boWenJiaoDu)) {
-            boWenJiaoDu = " ";
+            boWenBlank(myRows, wuLiao, boWenJiaoDu, start, end);
+            return myRows;
         }
         String[] s = boWenJiaoDu.split(" ");
         List<String> temp = new ArrayList<>();
@@ -228,15 +248,7 @@ public class ExcelUtils {
 
         boWenJiaoDuSplit = temp.stream().filter(item -> StringUtils.isNotBlank(item)).toArray(String[]::new);
 
-        //厚度分割获取厚度范围
-        String[] split = null;
-        if (houDu.contains("-")) {
-            split = houDu.split("-");
-        } else {
-            split = houDu.split("/");
-        }
-        int i = new BigDecimal(split[0]).multiply(BigDecimal.valueOf(10)).intValue();
-        int end = new BigDecimal(split[split.length > 1 ? 1 : 0]).multiply(BigDecimal.valueOf(10)).intValue();
+
         String xinghaoALl = wuLiao.setXingHao(mainNo, boWenJiaoDuSplit);
         //,
         int length = boWenJiaoDuSplit.length;
@@ -250,9 +262,12 @@ public class ExcelUtils {
         //波纹角度
         for (int j = 0; j < length; j++) {
 
+
             boWenSon = boWenJiaoDuSplit[j];
+            doWuliaoQufenAndCaizhi(length, xingHao, values,j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
+            start, end);
             ///物料区分
-            for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
+            /*for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
                 // 循环材质
                 for (int m = 0; m < Constans.caiZhiList.size(); m++) {
                     if (length > 1) {
@@ -267,10 +282,40 @@ public class ExcelUtils {
                             boWenSon,
                             wuLiao,
                             WuLiaoQuFen.getByWuLiaoQuFenCode(Constans.xingHaoHouZuiList.get(k)),
-                            Constans.caiZhiList.get(m), xingHao, i, end));
+                            Constans.caiZhiList.get(m), xingHao, start, end));
                 }
-            }
+            }*/
         }
         return myRows;
+    }
+    //物料循环 和材质
+    public static void doWuliaoQufenAndCaizhi(int length, String xingHao, String[] values, int j, String xinghaoALl, List<MyRow> myRows, String mainNo, String boWenSon, WuLiao wuLiao,
+                                              int start, int end) {
+        ///物料区分
+        for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
+            // 循环材质
+            for (int m = 0; m < Constans.caiZhiList.size(); m++) {
+                if (length > 1) {
+                    xingHao = values[j];
+                } else {
+                    xingHao = xinghaoALl;
+                }
+                if (StringUtils.isNotBlank(xingHao)) {
+                    xingHao += Constans.xingHaoHouZuiList.get(k);
+                }
+                myRows.add(new MyRow(mainNo,
+                        boWenSon,
+                        wuLiao,
+                        WuLiaoQuFen.getByWuLiaoQuFenCode(Constans.xingHaoHouZuiList.get(k)),
+                        Constans.caiZhiList.get(m), xingHao, start, end));
+            }
+        }
+    }
+    // 波纹角度为空
+    public static void boWenBlank(List<MyRow> myRows, WuLiao wuLiao, String boWenJiaoDu, int start, int end) {
+        if (StringUtils.isNotBlank(boWenJiaoDu)) {
+            return;
+        }
+        doWuliaoQufenAndCaizhi(0, wuLiao.getMainNo(), null, 0, wuLiao.getMainNo(), myRows, wuLiao.getMainNo(), "", wuLiao, start, end);
     }
 }
