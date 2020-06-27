@@ -1,4 +1,4 @@
-# biTaiExcel
+# boTaiExcel
  博泰基础excel信息整理
  
  该项目打包后为： ExcelDoing-1.0-SNAPSHOT.jar
