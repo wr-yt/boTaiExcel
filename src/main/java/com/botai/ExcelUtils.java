@@ -48,7 +48,7 @@ public class ExcelUtils {
             String goodsNo = "";
             // 开始循环遍历行，表头不处理，从1开始  
             exitRow:
-            for (int i = 1; i < sheet.getLastRowNum(); i++) {
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 HSSFRow row = sheet.getRow(i);// 获取行对象
                 employee = new WuLiao();// 实例化Student对象
                 if (row == null) {// 如果为空，不处理  
