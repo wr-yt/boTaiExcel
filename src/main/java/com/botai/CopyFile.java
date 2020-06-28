@@ -30,8 +30,8 @@ public class CopyFile {
             File copiedFile = new File(copiedFilePath);
             if (!copiedFile.exists()) {
                 copiedFile.createNewFile();
+                System.err.println(copiedFile.getAbsolutePath());
             }
-            System.err.println(copiedFile.getAbsolutePath());
             //复制内容到指定文件中
             copyFileContent(copyFile, copiedFile);
             return copiedFile.getAbsolutePath();
