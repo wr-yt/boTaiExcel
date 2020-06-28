@@ -47,14 +47,14 @@ public class ExcelUtils {
             HSSFSheet sheet = workbook2003.getSheetAt(0);// 取出第一个工作表，索引是0  
             // 开始循环遍历行，表头不处理，从1开始  
             exitRow:
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            for (int i = 1; i < sheet.getLastRowNum(); i++) {
                 HSSFRow row = sheet.getRow(i);// 获取行对象
                 employee = new WuLiao();// 实例化Student对象
                 if (row == null) {// 如果为空，不处理  
                     continue;
                 }
                 // 循环遍历单元格  
-                for (int j = 0; j < row.getLastCellNum(); j++) {
+                for (int j = 0; j <=row.getLastCellNum(); j++) {
                     HSSFCell cell = row.getCell(j);// 获取单元格对象  
                     if (cell == null) {// 单元格为空设置cellStr为空串  
                         cellStr = "";
