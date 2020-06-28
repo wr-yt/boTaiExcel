@@ -249,7 +249,7 @@ public class ExcelUtils {
         boWenJiaoDuSplit = temp.stream().filter(item -> StringUtils.isNotBlank(item)).toArray(String[]::new);
 
 
-        String xinghaoALl = wuLiao.setXingHao(mainNo, boWenJiaoDuSplit);
+        String xinghaoALl = wuLiao.setXingHao(mainNo, boWenJiaoDuSplit,boWenJiaoDu);
         //,
         int length = boWenJiaoDuSplit.length;
         String[] values = null;

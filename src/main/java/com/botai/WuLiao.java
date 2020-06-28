@@ -125,7 +125,7 @@ public class WuLiao implements Serializable {
      *
      * @return
      */
-    public String setXingHao(String mainNo, String[] boWenJiaoDuSplit) {
+    public String setXingHao(String mainNo, String[] boWenJiaoDuSplit, String boWenJiaoDuStr) {
         int length = boWenJiaoDuSplit.length;
         int boWenKINJIEZHI = Constans.boWenKINJIEZHI;
         // 有两个
@@ -150,25 +150,24 @@ public class WuLiao implements Serializable {
                     String s2 = boWenJiaoDuSplit[1];
 
 
-//                    BigDecimal num = new BigDecimal(s.replace(BoWenHanZi.HENG.getMsg(),"").trim().replace(BoWenHanZi.SHU.getMsg(),"").trim());
                     BigDecimal num2 = null;
                     BigDecimal num = null;
+
                     try {
                         num = new BigDecimal(s.trim());
-//                        num2 = new BigDecimal(s2.replace(BoWenHanZi.HENG.getMsg(),"").trim().replace(BoWenHanZi.SHU.getMsg(),"").trim());
                         num2 = new BigDecimal(s2.trim());
                     } catch (Exception e) {
                         num = new BigDecimal(s.replace(BoWenHanZi.HENG.getMsg(), "").trim().replace(BoWenHanZi.SHU.getMsg(), "").trim());
                         num2 = new BigDecimal(s2.replace(BoWenHanZi.HENG.getMsg(), "").trim().replace(BoWenHanZi.SHU.getMsg(), "").trim());
-                        if (num.compareTo(new BigDecimal(boWenKINJIEZHI)) <= 0) {
+                        if (num.compareTo(new BigDecimal(boWenKINJIEZHI)) <= 0 || s.contains(BoWenHanZi.SHU.getMsg())) {
                             val.append(mainNo + "-L/");
-                        } else {
+                        } else if (num.compareTo(new BigDecimal(boWenKINJIEZHI)) > 0 || s.contains(BoWenHanZi.HENG.getMsg())) {
                             val.append(mainNo + "-H/");
                         }
                         val.append("@");
-                        if (num2.compareTo(new BigDecimal(boWenKINJIEZHI)) <= 0) {
+                        if (num2.compareTo(new BigDecimal(boWenKINJIEZHI)) <= 0 || s2.contains(BoWenHanZi.SHU.getMsg())) {
                             val.append(mainNo + "-L/");
-                        } else {
+                        } else if (num2.compareTo(new BigDecimal(boWenKINJIEZHI)) > 0 || s2.contains(BoWenHanZi.HENG.getMsg())) {
                             val.append(mainNo + "-H/");
                         }
                         break;
