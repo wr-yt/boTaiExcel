@@ -58,6 +58,7 @@ public class MyRowTask implements Callable<List<MyRow>> {
                 }
             }
         }
+        setLastRow(sheet, index++);
         FileOutputStream out = null;
         try {
             //写数据
@@ -79,6 +80,12 @@ public class MyRowTask implements Callable<List<MyRow>> {
         return myRows;
     }
 
+    // 最后一行加 end
+    public synchronized void setLastRow(HSSFSheet sheet, int rowCoun) {
+        HSSFRow row = sheet.createRow(rowCoun + 2);
+        //物料编码
+        row.createCell(0).setCellValue("end");
+    }
 
     public synchronized void setRow(HSSFSheet sheet, int rowCoun, String mainNo, String bowen, WuLiao wuLiao, double houDu, String wuLiaoQuFen, String caiZhi, String xingHao) {
         //在现有行号后追加数据，我的excel模板中只保留了标题，所以从第一行开始追加数据，如果不是第一行，可以先获取sheet表的最后一行，sheet.getLastRowNum（），获取之后，再追加
@@ -89,7 +96,7 @@ public class MyRowTask implements Callable<List<MyRow>> {
          * 设置第一个（从0开始）单元格的数据
          */
         //物料编码
-        row.createCell(0).setCellValue("");
+        row.createCell(0).setCellValue(wuLiao.getGoodsPre() + setGoodsNoSub(rowCoun+1));
 
         //物料名称
         row.createCell(1).setCellValue(Constans.lieMapFinallData.get(1).toString());
@@ -147,6 +154,28 @@ public class MyRowTask implements Callable<List<MyRow>> {
 
         //最高库存
         row.createCell(18).setCellValue(Constans.lieMapFinallData.get(18).toString());
+    }
+
+    /**
+     * 设置物料编号后缀
+     *
+     * @param rowCoun
+     * @return
+     */
+    private String setGoodsNoSub(int rowCoun) {
+        if (rowCoun < 10) {
+            return "000" + rowCoun;
+        } else if (rowCoun < 100) {
+            return "00" + rowCoun;
+
+        } else if (rowCoun < 1000) {
+            return "0" + rowCoun;
+        } else if (rowCoun < 10000) {
+            return rowCoun + "";
+        } else {
+            System.out.println("请扩展物料编码长度");
+            return null;
+        }
     }
 
     /**

@@ -49,6 +49,8 @@ public class WuLiao implements Serializable {
 
     private String filepath;
 
+    private String goodsPre;
+
     /**
      * 删除标记
      */
@@ -118,6 +120,14 @@ public class WuLiao implements Serializable {
 
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+
+    public String getGoodsPre() {
+        return goodsPre;
+    }
+
+    public void setGoodsPre(String goodsPre) {
+        this.goodsPre = goodsPre;
     }
 
     /**

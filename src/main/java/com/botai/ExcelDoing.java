@@ -22,7 +22,7 @@ public class ExcelDoing {
             // 命令删除excels
             ExcelUtils.getTemplateSheet(new FileInputStream(args[1]));
             List<WuLiao> wuLiaos = ExcelUtils.readFromXLS2003(args[0]);
-
+            System.out.println("--"+wuLiaos.size());
             Map<String, Long> collectMap = wuLiaos.stream().collect(Collectors.groupingBy(WuLiao::getMainNo, Collectors.counting()));
 
             wuLiaos = Collections.synchronizedList(wuLiaos);
@@ -42,7 +42,7 @@ public class ExcelDoing {
                         mapBymain.put(mainNo, wuLiao);
                     }
                 }
-                wuLiao.setFilepath(CopyFile.copyFiles(args[1], mainNo));
+                wuLiao.setFilepath(CopyFile.copyFiles(args[1], wuLiao.getXuHao()));
             }
             CreateMultipleSheetNew createMultipleSheetNew = new CreateMultipleSheetNew();
             createMultipleSheetNew.Doing(wuLiaos);

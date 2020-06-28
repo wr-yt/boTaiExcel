@@ -44,7 +44,8 @@ public class ExcelUtils {
             excelFile = new File(filePath);
             is = new FileInputStream(excelFile);// 获取文件输入流  
             HSSFWorkbook workbook2003 = new HSSFWorkbook(is);// 创建Excel2003文件对象  
-            HSSFSheet sheet = workbook2003.getSheetAt(0);// 取出第一个工作表，索引是0  
+            HSSFSheet sheet = workbook2003.getSheetAt(0);// 取出第一个工作表，索引是0
+            String goodsNo = "";
             // 开始循环遍历行，表头不处理，从1开始  
             exitRow:
             for (int i = 1; i < sheet.getLastRowNum(); i++) {
@@ -54,7 +55,7 @@ public class ExcelUtils {
                     continue;
                 }
                 // 循环遍历单元格  
-                for (int j = 0; j <=row.getLastCellNum(); j++) {
+                for (int j = 0; j <= row.getLastCellNum(); j++) {
                     HSSFCell cell = row.getCell(j);// 获取单元格对象  
                     if (cell == null) {// 单元格为空设置cellStr为空串  
                         cellStr = "";
@@ -71,7 +72,10 @@ public class ExcelUtils {
                         if (StringUtils.equals(cellStr.trim(), "end")) {
                             break exitRow;
                         }
+
+                        goodsNo = cellStr.trim().split("-")[0];
                         employee.setXuHao(cellStr.trim());
+                        employee.setGoodsPre("BP" + setGoodsNo(goodsNo));
                     } else if (j == 1) {
                         employee.setMainNo(cellStr.trim());
                     } else if (j == 2) {
@@ -102,6 +106,27 @@ public class ExcelUtils {
             }
         }
         return employeeList;
+    }
+
+    /**
+     * 设置goodsNo
+     *
+     * @param goodsNo
+     * @return
+     */
+    private static String setGoodsNo(String goodsNo) {
+        int integer = Integer.valueOf(goodsNo);
+
+        if (integer < 10) {
+            return "00" + goodsNo;
+        } else if (integer < 100) {
+            return "0" + goodsNo;
+        } else if (integer < 999) {
+            return goodsNo;
+        } else {
+            System.out.println("扩展编码位数");
+            return null;
+        }
     }
 
     /**
@@ -249,7 +274,7 @@ public class ExcelUtils {
         boWenJiaoDuSplit = temp.stream().filter(item -> StringUtils.isNotBlank(item)).toArray(String[]::new);
 
 
-        String xinghaoALl = wuLiao.setXingHao(mainNo, boWenJiaoDuSplit,boWenJiaoDu);
+        String xinghaoALl = wuLiao.setXingHao(mainNo, boWenJiaoDuSplit, boWenJiaoDu);
         //,
         int length = boWenJiaoDuSplit.length;
         String[] values = null;
@@ -264,8 +289,8 @@ public class ExcelUtils {
 
 
             boWenSon = boWenJiaoDuSplit[j];
-            doWuliaoQufenAndCaizhi(length, xingHao, values,j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
-            start, end);
+            doWuliaoQufenAndCaizhi(length, xingHao, values, j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
+                    start, end);
             ///物料区分
             /*for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
                 // 循环材质
@@ -288,6 +313,7 @@ public class ExcelUtils {
         }
         return myRows;
     }
+
     //物料循环 和材质
     public static void doWuliaoQufenAndCaizhi(int length, String xingHao, String[] values, int j, String xinghaoALl, List<MyRow> myRows, String mainNo, String boWenSon, WuLiao wuLiao,
                                               int start, int end) {
@@ -311,6 +337,7 @@ public class ExcelUtils {
             }
         }
     }
+
     // 波纹角度为空
     public static void boWenBlank(List<MyRow> myRows, WuLiao wuLiao, String boWenJiaoDu, int start, int end) {
         if (StringUtils.isNotBlank(boWenJiaoDu)) {
