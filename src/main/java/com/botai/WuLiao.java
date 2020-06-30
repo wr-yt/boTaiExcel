@@ -40,12 +40,12 @@ public class WuLiao implements Serializable {
     /**
      * 长度
      */
-    private long length;
+    private String length;
 
     /**
      * 宽度
      */
-    private long with;
+    private String with;
 
     private String filepath;
 
@@ -81,19 +81,19 @@ public class WuLiao implements Serializable {
         this.boWenJiaoDu = boWenJiaoDu;
     }
 
-    public long getLength() {
+    public String getLength() {
         return length;
     }
 
-    public void setLength(long length) {
+    public void setLength(String length) {
         this.length = length;
     }
 
-    public long getWith() {
+    public String getWith() {
         return with;
     }
 
-    public void setWith(long with) {
+    public void setWith(String with) {
         this.with = with;
     }
 

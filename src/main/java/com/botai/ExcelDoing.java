@@ -19,10 +19,12 @@ public class ExcelDoing {
 
 
         try {
+
+            Constans.setlieMapFinallData(args[2]);
             // 命令删除excels
             ExcelUtils.getTemplateSheet(new FileInputStream(args[1]));
-            List<WuLiao> wuLiaos = ExcelUtils.readFromXLS2003(args[0]);
-            System.out.println("--"+wuLiaos.size());
+            List<WuLiao> wuLiaos = ExcelUtils.readFromXLS2003(args[0], StringUtils.equals(args[2], "teshu") ? "B" : "");
+
             Map<String, Long> collectMap = wuLiaos.stream().collect(Collectors.groupingBy(WuLiao::getMainNo, Collectors.counting()));
 
             wuLiaos = Collections.synchronizedList(wuLiaos);

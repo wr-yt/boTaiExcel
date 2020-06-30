@@ -136,13 +136,13 @@ public class MyRowTask implements Callable<List<MyRow>> {
         row.createCell(11).setCellValue(caiZhi);
 
         // 厚度
-        row.createCell(12).setCellValue(houDu / 10);
+        row.createCell(12).setCellValue(String.valueOf(houDu / 10));
 
         // 长度
-        row.createCell(13).setCellValue(wuLiao.getLength());
+        row.createCell(13).setCellValue(String.valueOf(wuLiao.getLength()));
 
         // 宽度
-        row.createCell(14).setCellValue(wuLiao.getWith());
+        row.createCell(14).setCellValue(String.valueOf(wuLiao.getWith()));
 
         //密度
         row.createCell(15).setCellValue("");

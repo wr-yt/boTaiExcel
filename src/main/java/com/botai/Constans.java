@@ -33,6 +33,8 @@ public class Constans {
      */
     public static final int boWenKINJIEZHI = 90;
 
+    public static String param = "";
+
     static {
         caiZhiList.add("254SMo");
         caiZhiList.add("304");
@@ -64,5 +66,36 @@ public class Constans {
         xingHaoHouZuiList.add("T");
         xingHaoHouZuiList = Collections.synchronizedList(xingHaoHouZuiList);
 
+    }
+
+
+    public static void setlieMapFinallData(String param) {
+        lieMapFinallData.clear();
+        if (StringUtils.equals(param, "teShu")) {
+
+            //死数据
+            lieMapFinallData.put(1, "成品板片");
+            lieMapFinallData.put(2, "LB1");
+            lieMapFinallData.put(3, "成品板片");
+            lieMapFinallData.put(4, "片");
+            lieMapFinallData.put(5, "自制件,成品");
+            lieMapFinallData.put(16, "1.000000");
+            lieMapFinallData.put(17, "0.00");
+            lieMapFinallData.put(18, "0.000000");
+            param = "B";
+        } else {
+            //死数据
+            lieMapFinallData.put(1, "成品半成品");
+            lieMapFinallData.put(2, "LB2");
+            lieMapFinallData.put(3, "成品半成品");
+            lieMapFinallData.put(4, "片");
+            lieMapFinallData.put(5, "自制件,半成品");
+            lieMapFinallData.put(16, "1.000000");
+            lieMapFinallData.put(17, "0.00");
+            lieMapFinallData.put(18, "0.000000");
+            param = "";
+        }
+
+        System.out.printf(lieMapFinallData.toString());
     }
 }

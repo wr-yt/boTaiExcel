@@ -32,8 +32,7 @@ public class ExcelUtils {
      * @param filePath
      * @return
      */
-    public static List<WuLiao> readFromXLS2003(String filePath) {
-
+    public static List<WuLiao> readFromXLS2003(String filePath, String param) {
         List<WuLiao> boWenJiaoDuBlank = new ArrayList<>();
         File excelFile = null;// Excel文件对象  
         InputStream is = null;// 输入流对象  
@@ -75,7 +74,7 @@ public class ExcelUtils {
 
                         goodsNo = cellStr.trim().split("-")[0];
                         employee.setXuHao(cellStr.trim());
-                        employee.setGoodsPre("BP" + setGoodsNo(goodsNo));
+                        employee.setGoodsPre("BP" + param + setGoodsNo(goodsNo));
                     } else if (j == 1) {
                         employee.setMainNo(cellStr.trim());
                     } else if (j == 2) {
@@ -87,9 +86,9 @@ public class ExcelUtils {
                         }
                         employee.setBoWenJiaoDu(cellStr.trim());
                     } else if (j == 4) {
-                        employee.setLength(StringUtils.isNotBlank(cellStr.trim()) ? new BigDecimal(cellStr.trim()).intValue() : 0);
+                        employee.setLength(cellStr.trim());
                     } else if (j == 5) {
-                        employee.setWith(StringUtils.isNotBlank(cellStr.trim()) ? new BigDecimal(cellStr.trim()).intValue() : 0);
+                        employee.setWith(cellStr.trim());
                     }
                 }
                 employeeList.add(employee);// 数据装入List  
