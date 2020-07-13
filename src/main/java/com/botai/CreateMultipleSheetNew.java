@@ -43,7 +43,7 @@ public class CreateMultipleSheetNew {
     public void Doing(List<WuLiao> wuLiaos) {
         try {
             List<MyRowTask> listArr3 = createProductCategoryLogSaveTask(wuLiaos);
-            ExecutorService executorService = Executors.newFixedThreadPool(listArr3.size() / 10);
+            ExecutorService executorService = newFixedThreadPool(listArr3.size() / 10 ==0 ?1:(listArr3.size() / 10));
             executorService.invokeAll(listArr3);
             executorService.shutdown();
             System.out.println("listArr3" + listArr3.size());

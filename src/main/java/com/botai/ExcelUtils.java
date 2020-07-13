@@ -285,30 +285,9 @@ public class ExcelUtils {
         }
         //波纹角度
         for (int j = 0; j < length; j++) {
-
-
             boWenSon = boWenJiaoDuSplit[j];
             doWuliaoQufenAndCaizhi(length, xingHao, values, j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
                     start, end);
-            ///物料区分
-            /*for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
-                // 循环材质
-                for (int m = 0; m < Constans.caiZhiList.size(); m++) {
-                    if (length > 1) {
-                        xingHao = values[j];
-                    } else {
-                        xingHao = xinghaoALl;
-                    }
-                    if (StringUtils.isNotBlank(xingHao)) {
-                        xingHao += Constans.xingHaoHouZuiList.get(k);
-                    }
-                    myRows.add(new MyRow(mainNo,
-                            boWenSon,
-                            wuLiao,
-                            WuLiaoQuFen.getByWuLiaoQuFenCode(Constans.xingHaoHouZuiList.get(k)),
-                            Constans.caiZhiList.get(m), xingHao, start, end));
-                }
-            }*/
         }
         return myRows;
     }

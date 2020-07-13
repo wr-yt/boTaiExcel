@@ -124,7 +124,7 @@ public class MyRowTask implements Callable<List<MyRow>> {
 
         try {
             //波纹角度
-            row.createCell(9).setCellValue(getBoWeenJiaoNum(bowen).toString());
+            row.createCell(9).setCellValue(bowen.trim());
         } catch (Exception e) {
             System.err.println("mainNo: " + mainNo + " bowen: " + bowen);
         }
@@ -175,25 +175,6 @@ public class MyRowTask implements Callable<List<MyRow>> {
         } else {
             System.out.println("请扩展物料编码长度");
             return null;
-        }
-    }
-
-    /**
-     * 获取波纹对应的数值
-     *
-     * @param bowen
-     * @return
-     */
-    public BigDecimal getBoWeenJiaoNum(String bowen) {
-
-        if (StringUtils.isBlank(bowen)) {
-            return new BigDecimal("0");
-        } else if (bowen.contains(BoWenHanZi.HENG.getMsg())) {
-            return new BigDecimal(bowen.split(BoWenHanZi.HENG.getMsg())[1].trim());
-        } else if (bowen.contains(BoWenHanZi.SHU.getMsg())) {
-            return new BigDecimal(bowen.split(BoWenHanZi.SHU.getMsg())[1].trim());
-        } else {
-            return new BigDecimal(bowen);
         }
     }
 }
