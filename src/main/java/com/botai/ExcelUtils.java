@@ -286,32 +286,37 @@ public class ExcelUtils {
         //波纹角度
         for (int j = 0; j < length; j++) {
             boWenSon = boWenJiaoDuSplit[j];
-            doWuliaoQufenAndCaizhi(length, xingHao, values, j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
+            doWuliaoQufenAndCaizhi(length, new StringBuffer(xingHao), values, j, xinghaoALl, myRows, mainNo, boWenSon, wuLiao,
                     start, end);
         }
         return myRows;
     }
 
     //物料循环 和材质
-    public static void doWuliaoQufenAndCaizhi(int length, String xingHao, String[] values, int j, String xinghaoALl, List<MyRow> myRows, String mainNo, String boWenSon, WuLiao wuLiao,
+    public static void doWuliaoQufenAndCaizhi(int length, StringBuffer xingHao, String[] values, int j, String xinghaoALl, List<MyRow> myRows, String mainNo, String boWenSon, WuLiao wuLiao,
                                               int start, int end) {
         ///物料区分
         for (int k = 0; k < Constans.xingHaoHouZuiList.size(); k++) {
             // 循环材质
             for (int m = 0; m < Constans.caiZhiList.size(); m++) {
                 if (length > 1) {
-                    xingHao = values[j];
+                    xingHao = new StringBuffer(values[j]);
                 } else {
-                    xingHao = xinghaoALl;
+                    xingHao = new StringBuffer(xinghaoALl);
+                }
+                if (StringUtils.isBlank(boWenSon)){
+                    System.err.println(boWenSon);
+                    xingHao.append("/");
                 }
                 if (StringUtils.isNotBlank(xingHao)) {
-                    xingHao += Constans.xingHaoHouZuiList.get(k);
+                    xingHao .append(Constans.xingHaoHouZuiList.get(k));
                 }
+
                 myRows.add(new MyRow(mainNo,
                         boWenSon,
                         wuLiao,
                         WuLiaoQuFen.getByWuLiaoQuFenCode(Constans.xingHaoHouZuiList.get(k)),
-                        Constans.caiZhiList.get(m), xingHao, start, end));
+                        Constans.caiZhiList.get(m), xingHao.toString(), start, end));
             }
         }
     }
@@ -321,6 +326,6 @@ public class ExcelUtils {
         if (StringUtils.isNotBlank(boWenJiaoDu)) {
             return;
         }
-        doWuliaoQufenAndCaizhi(0, wuLiao.getMainNo(), null, 0, wuLiao.getMainNo(), myRows, wuLiao.getMainNo(), "", wuLiao, start, end);
+        doWuliaoQufenAndCaizhi(0, new StringBuffer(wuLiao.getMainNo()), null, 0, wuLiao.getMainNo(), myRows, wuLiao.getMainNo(), "", wuLiao, start, end);
     }
 }
