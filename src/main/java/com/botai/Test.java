@@ -21,7 +21,5 @@ public class Test {
         list.add(myRow);
 
         myRow.setEnd(123);
-        System.out.println(list.get(0) .getEnd());
-        System.out.println(myRow.getEnd());
     }
 }

@@ -150,9 +150,7 @@ public class ExcelUtils {
                 for (int k = 0; k < sheetRow.getLastCellNum(); k++) {
                     HSSFCell hssfCell = sheetRow.getCell(k);
                     excelTitle[k] = hssfCell.getStringCellValue();
-//		            	System.out.println(excelTitle[k] + " ");
                 }
-                //*************获取表头end*************
             }
         } catch (IOException e) {
             e.printStackTrace();

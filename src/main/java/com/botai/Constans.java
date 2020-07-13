@@ -95,7 +95,5 @@ public class Constans {
             lieMapFinallData.put(18, "0.000000");
             param = "";
         }
-
-        System.out.printf(lieMapFinallData.toString());
     }
 }
