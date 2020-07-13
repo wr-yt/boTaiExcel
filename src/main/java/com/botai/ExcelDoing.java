@@ -19,6 +19,7 @@ public class ExcelDoing {
 
 
         try {
+            CommandUtils.delExcelsFiles();
 
             Constans.setlieMapFinallData(args[2]);
             // 命令删除excels

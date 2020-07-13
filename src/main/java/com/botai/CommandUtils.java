@@ -72,10 +72,9 @@ public class CommandUtils {
     public static void delExcelsFiles() throws IOException {
 
         EPlatform oSname = OSinfo.getOSname();
-        System.out.println("当前操作系统： " + oSname);
-        File copiedFolder = new File("excels");
+        System.out.println("： " + oSname);
         if (OSinfo.isMacOS() || OSinfo.isMacOSX() || OSinfo.isLinux()) {
-            String result = exeCommand("sudo rm -rf excels");
+            String result = exeCommand("rm -rf excels");
 //            String result = exeCommand("rm -rf " + copiedFolder.getAbsolutePath());
             System.out.println("执行结果：" + result);
         }
@@ -115,7 +114,7 @@ public class CommandUtils {
         if (!sPath.endsWith(File.separator)) {
             sPath = sPath + File.separator;
         }
-        File dirFile =  new File("excels");;
+        File dirFile = new File("excels");
         //如果dir对应的文件不存在，或者不是一个目录，则退出
         if (!dirFile.exists() || !dirFile.isDirectory()) {
             return false;
@@ -160,8 +159,12 @@ public class CommandUtils {
         return flag;
     }
 
-    public static void main(String[] args) {
-        DeleteFolder("excels");
+    public static void main(String[] args) throws IOException {
+//        DeleteFolder("excels");
+        System.out.println(exeCommand("pwd"));
+        System.out.println(exeCommand("ls"));
+        System.out.println(exeCommand("rm -rf target"));
+        System.out.println(exeCommand("ls"));
     }
 
 
